@@ -1,0 +1,339 @@
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+
+nav {
+    background: #673ab7; color: white; padding: 1rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.main-content {
+    display: flex; height: calc(100vh - 65px); padding: 15px; gap: 15px; background: #f0f2f5;
+}
+
+#sidebar {
+    width: 320px; background: white; padding: 20px; border-radius: 15px;
+    display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow-y: auto;
+}
+
+#map-container { flex-grow: 1; border-radius: 15px; border: 2px solid #ddd; z-index: 1; }
+
+.sos-trigger {
+    background: #ff0000; color: white; padding: 10px 20px; border-radius: 50px;
+    font-weight: bold; cursor: pointer; animation: pulse-red 1.5s infinite;
+}
+
+@keyframes pulse-red {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+}
+
+.emergency-mode { animation: flash-bg 0.5s infinite; }
+@keyframes flash-bg { 0%, 100% { background: white; } 50% { background: #ffcccc; } }
+
+.modal {
+    position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center;
+}
+
+.modal-content {
+    background: white; padding: 30px; border-radius: 15px; text-align: center; max-width: 400px;
+}
+
+.alt-btn, #submit-btn {
+    width: 100%; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px;
+}
+.alt-btn { background: #00bcd4; color: white; }
+#submit-btn { background: #673ab7; color: white; }
+
+input, select { width: 100%; padding: 10px; margin-top: 8px; border-radius: 6px; border: 1px solid #ccc; }
+
+.stats-box { margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #673ab7; }
+
+/* Modal ka main button */
+.modal-content button {
+    background: linear-gradient(135deg, #673ab7, #512da8); /* Gradient Look */
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px; /* Rounded corners */
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(103, 58, 183, 0.3); /* Soft Shadow */
+    transition: all 0.3s ease; /* Smooth animation */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Jab mouse button ke upar jaye */
+.modal-content button:hover {
+    background: linear-gradient(135deg, #512da8, #311b92);
+    transform: translateY(-2px); /* Thoda upar uthega */
+    box-shadow: 0 6px 20px rgba(103, 58, 183, 0.5);
+}
+
+/* Jab button click ho */
+.modal-content button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 10px rgba(103, 58, 183, 0.3);
+}
+
+/* Modal box ko bhi thoda sundar banate hain */
+.modal-content {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Background blur effect */
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    max-width: 450px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.modal-content h2 {
+    color: #673ab7;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+.modal-content p {
+    color: #444;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    text-align: left; /* List items left-aligned ache lagte hain */
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column; /* Sidebar upar, Map niche */
+        height: auto;
+    }
+    #sidebar {
+        width: 100%;
+        height: auto;
+    }
+    #map-container {
+        height: 500px; /* Mobile par map ki fixed height */
+    }
+}
+
+.main-content {
+    display: flex;
+    height: 100vh; /* Full screen height */
+    padding: 10px;
+    gap: 10px;
+    background: #f0f2f5;
+}
+
+#sidebar {
+    width: 320px;
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow-y: auto; /* Agar content zyada ho toh scroll ho jaye */
+}
+
+/* SOS button styling for sidebar top */
+.sos-trigger {
+    background: #ff0000;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 12px;
+    animation: pulse-red 1.5s infinite;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Modern Glass Navbar */
+.glass-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(103, 58, 183, 0.75); /* Translucent Purple */
+    backdrop-filter: blur(12px); /* The "Glass" effect */
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 30px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.nav-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Logo Styling */
+.logo {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: -0.5px;
+}
+
+.logo span {
+    font-weight: 300;
+    opacity: 0.9;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links li {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.nav-links li:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* SOS Pill Button */
+.sos-pill {
+    background: #ff3b30;
+    color: white;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 59, 48, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    animation: pulse-ring 1.5s infinite;
+}
+
+/* The "Emergency" Pulse Animation */
+@keyframes pulse-ring {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(255, 59, 48, 0); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0); }
+}
+
+/* Ensure the main content doesn't hide under the nav */
+.main-content {
+    height: calc(100vh - 70px);
+    display: flex;
+    padding: 15px;
+    gap: 15px;
+    background: #f0f2f5;
+}
+
+/* Change #sos-btn to .sos-btn */
+.sos-btn {
+    cursor: pointer;
+    /* Add any other shared styles here */
+}
+
+/* Modern Floating Navbar */
+.glass-nav {
+    position: sticky;
+    top: 15px; /* Floating effect from top */
+    z-index: 1000;
+    background: rgba(80, 11, 199, 0.4); /* Transparent Purple */
+    backdrop-filter: blur(20px); /* Frosted glass */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin: 10px 20px;
+    border-radius: 20px; /* Rounded pill shape */
+    height: 65px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.nav-content {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 25px;
+}
+
+/* Logo: Bold & Clean */
+.logo {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    font-weight: 300;
+    color: #3f00b5; /* Light purple accent */
+}
+
+/* Links: Animated Underline */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.nav-links li {
+    position: relative;
+    color: rgba(236, 242, 66, 0.9);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Modern Hover Effect (The Line Underneath) */
+.nav-links li::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background-color: #fff;
+    transition: width 0.3s ease;
+}
+
+.nav-links li:hover::after {
+    width: 100%;
+}
+
+.nav-links li:hover {
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Fix main content to accommodate the floating nav */
+.main-content {
+    height: calc(100vh - 95px); /* Adjusted for the gap + nav height */
+    display: flex;
+    padding: 15px;
+    gap: 15px;
+}
+
+.leaflet-control-geocoder {
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: none;
+    margin-top: 20px !important; /* Floating nav se niche rakhne ke liye */
+}
+
+.leaflet-control-geocoder-icon {
+    border-radius: 20px;
+}

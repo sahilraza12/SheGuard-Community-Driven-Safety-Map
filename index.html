@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SheGuard | Advanced Safety Map</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+</head>
+<body>
+    <nav class="glass-nav">
+        <div class="nav-content">
+            <div class="logo">🛡️ She<span>Guard</span></div>
+            <ul class="nav-links">
+                <li onclick="window.location.reload()">Map View</li>
+                <li onclick="alert('Tips: Stay in well-lit areas & keep your SOS active!')">Safety Tips</li>
+                <li onclick="resetData()">Clear Data</li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+    <aside id="sidebar">
+        <div class="sos-btn sos-trigger" style="text-align:center; margin-bottom:15px; padding: 15px;">
+            🆘 EMERGENCY SOS
+        </div>
+
+        <button id="locate-me" class="alt-btn">📍 Use My Current Location</button>
+        <button onclick="shareLiveLocation()" class="alt-btn" style="background:#4CAF50;">🔗 Share Live Location</button>
+        
+        <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+
+        <h3>🚨 Report Incident</h3>
+        <form id="report-form">
+            <label>Location Name:</label>
+            <input type="text" id="loc-name" placeholder="e.g. Market Entrance" required>
+
+            <label>Safety Level:</label>
+            <select id="issue-type">
+                <option value="safe">☀️ Safe & Active (Green)</option>
+                <option value="caution">⚠️ Moderate/Caution (Yellow)</option>
+                <option value="danger">🚩 Dangerous/Red Zone</option>
+            </select>
+
+            <label style="margin-top: 10px; display: block;">What's the issue? (Description):</label>
+            <textarea id="loc-desc" placeholder="e.g. No street lights, isolated area..." rows="2" style="width:100%; padding:10px; border-radius:6px; border:1px solid #ccc; margin-top:5px; resize: none;"></textarea>
+
+            <button type="submit" id="submit-btn">Submit Report</button>
+        </form>
+
+        <div class="route-section" style="margin-top: 20px; padding: 12px; background: #e8f5e9; border-radius: 10px; border: 1px solid #2ecc71;">
+            <h4>🗺️ Plan Safe Trip</h4>
+            <p style="font-size: 11px; color: #444;">Select target on map first.</p>
+            <button onclick="activateRouting()" style="background:#2ecc71; color:white; border:none; padding:10px; width:100%; margin-top:5px; border-radius:5px; cursor:pointer; font-weight:bold;">Show Safe Path</button>
+        </div>
+        <div id="time-status" style="padding:10px; border-radius:8px; text-align:center; font-weight:bold; margin-bottom:10px;"></div>
+        <div class="stats-box">
+            <h4>Area Statistics</h4>
+            <div id="stats-content">Loading stats...</div>
+            <button onclick="resetData()" style="font-size: 11px; background:none; border:none; color: #888; cursor:pointer; margin-top:10px; text-decoration: underline;">🗑️ Clear Map Data</button>
+        </div>
+    </aside>
+
+        <div id="map-container"></div>
+    </main>
+
+    <div id="welcome-modal" class="modal">
+        <div class="modal-content">
+            <h2>🛡️ Welcome to SheGuard</h2>
+            <p>1. <b>Green Dots:</b> Safe & active areas.</p>
+            <p>2. <b>Red Glow:</b> High-alert / Danger zones.</p>
+            <p>3. <b>Tap Map:</b> To select a location for reports or routing.</p>
+            <button onclick="closeModal()">🚀 Let's Explore</button>
+        </div>
+    </div> 
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
